@@ -31,8 +31,8 @@ d3 = {'name': 'Pooka', 'age': 5}
 if 'color' not in d3:
     d3['color'] = 'black'
 # 使用setdefault()后
-d3.setdefault('color', 'black')     # 相当于赋值
-d3.setdefault('color', 'white')     # 该句返回值仍为black
+d3.setdefault('color', 'black')     # 相当于赋值返回'black'
+d3.setdefault('color', 'white')     # 该句返回值仍为'black'
 # 对字符计数
 message = 'It was a bright cold day in April, and the clocks were striking thirteen.'
 count = {}
