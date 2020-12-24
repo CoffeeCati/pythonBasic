@@ -51,3 +51,33 @@ def ofile5():
         for file in fileName:
             print('FILE INSIDE ' + folderName + ': ' + file)
 
+# 用zipfile模块压缩文件
+import zipfile, os
+
+# 查看压缩文件的内容
+def ofile6():
+    os.chdir('/Users/liushuo')
+    exampleZip = zipfile.ZipFile('example.zip')     # 返回ZipFile对象
+    exampleZip.namelist()       # 返回压缩文件内所有的文件夹文件及文件夹对应的子文件
+    spmaInfo = exampleZip.getinfo()     # ZipFile的getinfo()方法获取文件有用的信息，大小等
+    spmaInfo.file_size          # 返回文件原本大小
+    spmaInfo.compress_size      # 返回压缩后大小
+    print('Compressed file is %sx smaller.' % (round(spmaInfo.file_size / spmaInfo.compress_size, 2)))
+    # 输出压缩效率
+    exampleZip.close()
+
+# 文件中解压缩
+def ofile7():
+    os.chdir('/Users/liushuo')
+    exampleZip = zipfile.ZipFile('example.zip')
+    exampleZip.extractall()     # 全部解压到当前工作目录，或输入参数使其解压到指定目录
+    exampleZip.extract('haha.txt', '/Users')        # 解压单个文件至目标目录下
+    # 以上两种extract如果传入目标目录，则路径中不存在的文件夹会被新建
+    exampleZip.close()
+
+# 创建和添加到ZIP文件
+def ofile8():
+    newZip = zipfile.ZipFile('new.zip', 'w')        # 必须以写模式打开，像open()一样输入'w'，'a'
+    newZip.write('haha.txt', compress_type=zipfile.ZIP_DEFLATED)    # 指定deflate压缩算法，适用于所有数据类型
+    newZip.close()
+
