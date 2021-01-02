@@ -8,7 +8,7 @@
 #            py mcb.pyw delete - 删除所有关键字
 ''' 新知识，.pyw后缀的python程序运行时不会打开终端
     shelve理解为永久的hash比较好
-    sys.argv的大小等于用户输入参数的个数-1，因为argv[0]始终为程序文件名'''
+    sys.argv的大小等于用户输入参数的个数+1，因为argv[0]始终为程序文件名'''
 import shelve, pyperclip, sys
 
 mcbShelf = shelve.open('mcb')       # 永久存储，可以认为shelve是一个永久存在的字典，也可理解为Hash
