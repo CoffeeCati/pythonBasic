@@ -48,6 +48,9 @@ def re2():
     mo.group(0)  # 返回所有拼接起来的结果，'415-555-4242'
     mo.group()   # 与group(0)一样
     mo.groups()  # 返回所有匹配的元素组成的tuple
+    # compile中特殊用法:
+    # 指定分组名(?P<name>)       引用指定分组(?P=name)
+    # \2 引用第二组
 
 
 # 由于括号在正则匹配中有其他意义，故想要对括号匹配时即便用r前缀，也要使用转义\(***\)
@@ -242,11 +245,25 @@ def re20():
 
 
 # re模块用sub()方法替换字符 第一个参数为用于替换匹配到的字符串，第二个参数是被匹配的主串
+# !!Note: 会替换掉所有被匹配到的字串，这点是理解传入方法时的关键
+def func(m):
+    return m.group(1).title() + ' ' + m.group(2).title()
 def re21():
     namesRegex = re.compile(r'Agent \w+')       # 替换所有匹配到的字串
     namesRegex.sub('CENSORED', 'Agent Alice gave the secret documents to Agent Bob.')
     # 返回'CENSORED gave the secret documents to CENSORED'
 # sub()的第一个参数可以调用匹配到的串的参数
+    # 当sub的第一个参数为一个方法时则该方法必须只能接收一个参数，且sub第二参数应放入一个字符串用于替换， func提供替换的方式
+    # 相当于是先匹配放入group中然后再将匹配到的东西放入func中
+    p = re.compile(r'(\w+) (\w+)')
+    s = 'i say, hello world'
+    p.sub(func, s)   # 返回'I Say, Hello World'
+    ''' 若compile中使用了分组，sub中还可以使用\id或\g<id>来引用第id组，或\g<name>引用名为name的组来替换 '''
+    p.sub(r'\2 \1', s)          # 'say i, world, hello'
+    p = re.compile(r'(?P<word1>\w+) (?P<word2>\w+)')
+    p.sub(r'\word2 \word1', s)  # 与p.sub(r'\2 \1')结果相同
+
+
 def re22():
     agentNamesRegex = re.compile(r'Agent (\w)\w*')
     agentNamesRegex.sub(r'\1****', 'Agent Alice told Agent Carol that Agent Eve')   # \1会自动换成group第一个参数的内容，即(\w)分组
